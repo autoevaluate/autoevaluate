@@ -1,0 +1,16 @@
+Machine learning is a subfield of artificial intelligence that deals with the development
+ of algorithms and statistical models that enable computer systems to automatically learn
+  from and improve upon tasks without being explicitly programmed to do so. In other words, 
+  machine learning is the process of training a machine to identify patterns and relationships 
+  within data, and then using this information
+ to make predictions or take actions based on new data.
+There are three main types of machine learning: supervised learning,
+ unsupervised learning, and reinforcement learning. Supervised learning involves training a 
+ machine on labeled data to make predictions or classifications based on new input. 
+ Unsupervised learning involves training a machine on unlabeled data to find hidden 
+ patterns or structures in the data. Reinforcement learning involves training a machine 
+ to make decisions based on trial and error and receiving feedback in the form of rewards 
+ or punishments.
+Machine learning is used in a wide variety of applications, including image and speech 
+recognition, natural language processing, recommendation systems, fraud detection, and 
+predictive analytics, among others.

@@ -165,7 +165,8 @@ def data_from_teacher():
     answer_keyy=answer_key.read().decode()
     session['answer_keyy']=answer_keyy
 
-    result=PreProcessing.main(answer,answer_keyy)
+
+    result=PreProcessing.main(answer,answer_keyy,total_marks)
     return result
     
 

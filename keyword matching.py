@@ -16,7 +16,15 @@ def KeyWordmatching(text1, text2):
     # Calculate the number of matching keywords as the cosine similarity multiplied by the total number of unique words
     num_matching_keywords = round(cosine_sim * len(set(text1.split() + text2.split())))
 
+    value=num_matching_keywords
+    
     return num_matching_keywords
 
-#change the variables
-# print(KeyWordmatching(target_docs,source_doc))
+    
+fle=open("F:/Final Year Project - Copy - Copy - Copy/test1.txt",'r')
+flee=open("F:/Final Year Project - Copy - Copy - Copy/test2.txt",'r')
+cont=fle.read()
+con=flee.read()
+
+# change the variables
+print(KeyWordmatching(cont,con))

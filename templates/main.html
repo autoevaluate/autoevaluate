@@ -97,19 +97,19 @@
 
             <form  method="post"  enctype="multipart/form-data" action="{{ url_for('data_from_teacher') }}">
                 <label for="student_name" id="label_name" class="lab">Student Name</label>
-                <input type="text" id="name" name="st_name" class="inpt_clsa"><br>
+                <input type="text" id="name" name="st_name" required class="inpt_clsa"><br>
 
                 <label for="student_name" id="label_email" class="lab">Student Email</label>
-                <input type="text" id="email" name="st_email" class="inpt_clsa"><br>
+                <input type="text" id="email" name="st_email" required class="inpt_clsa"><br>
 
-                <label for="teacher_input" id="label_total" class="lab">Enter Total Marks</label>
-                <input type="number"  id="marks" name="st_total_marks" class="inpt_clsa"><br>
+                <label for="teacher_input" id="label_total" class="lab" >Enter Total Marks</label>
+                <input type="number"  id="marks" name="st_total_marks" required class="inpt_clsa"><br>
                 
                 <label for="teacher_input" id="label_file" class="lab">Enter Answer key</label>
-                <input type="file"  id="file" name="answer_key" class="inpt_clsa"><br>
+                <input type="file"  id="file" name="answer_key" required class="inpt_clsa"><br>
 
                 <label for="teacher_input" id="label_answer" class="lab">Enter Answer</label>
-                <input type="file"  id="answer" name="answer" class="inpt_clsa"><br>   
+                <input type="file"  id="answer" name="answer" required class="inpt_clsa"><br>   
                 
                 <input type="submit" id="button">
 

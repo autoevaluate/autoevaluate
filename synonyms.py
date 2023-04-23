@@ -1,4 +1,3 @@
-
 import requests
 
 # Function to get synonyms using Datamuse API
@@ -13,8 +12,12 @@ def get_synonyms(word):
     return synonyms
 
 
-text1="example"
-text2="case"
+fle=open("F:/Final Year Project - Copy - Copy - Copy/test1.txt",'r')
+flee=open("F:/Final Year Project - Copy - Copy - Copy/test2.txt",'r')
+cont=fle.read()
+con=flee.read()
+text1=cont
+text2=con
 
 # Tokenize and preprocess words in text1 and text2
 text1_words = set(text1.split())
