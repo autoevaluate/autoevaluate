@@ -2,7 +2,7 @@ import flask
 import sqlite3
 from flask import Flask, request, render_template,session, redirect, url_for
 import PreProcessing
-
+import result
 
 app=Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -26,6 +26,9 @@ def login_form_data():
     
 
 
+# def student_database():
+#     db_file=sqlite3.connect("t")
+
 
 def login_check(login_email,login_password,login_select):
     db_file=sqlite3.connect("Teacher")
@@ -39,7 +42,7 @@ def login_check(login_email,login_password,login_select):
             session['logged_in'] = True
             return redirect(url_for('main'))
         elif(login_email==datt[0][2] and login_password==datt[0][3] and login_select=="Student"):
-            return redirect(url_for('final_result'))
+            return student_data(login_email)
         else:
             ddd="Invalid Password"
             return indd(ddd)
@@ -48,6 +51,19 @@ def login_check(login_email,login_password,login_select):
         ddd="Not registered please register!"
         return indd(ddd)
     
+@app.route("/student")
+def student_data(std_emailid):
+    
+    
+    
+    conn = sqlite3.connect('Teacher')
+    cursor = conn.cursor()
+    query=f'SELECT * FROM teacher_data where EMAIL=="{std_emailid}";'
+    cursor.execute(query)
+    data = cursor.fetchall()
+    columns = [description[0] for description in cursor.description]
+    conn.close()
+    return render_template('student.html', data=data, columns=columns)
 
 # and login_select=="Teacher"
 
@@ -57,24 +73,10 @@ def final_result():
     return render_template("final.html")
 
 
-
-
-
 @app.route("/navbar")
 
 def navbar():
     return render_template("navbar.html")
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -119,6 +121,7 @@ def check_email(reg_name,reg_email,reg_password,reg_select):
     
 
 
+
 def create_database(reg_name,reg_email,reg_password,reg_select):
     db_file=sqlite3.connect("Teacher")
     db_cursor=db_file.cursor()
@@ -134,7 +137,7 @@ def create_database(reg_name,reg_email,reg_password,reg_select):
     db_cursor.execute(create_query)
 
     insert_query=f'INSERT INTO teacher_data (NAME,EMAIL,PASSWORD,SELECT_DATA) VALUES ("{reg_name}","{reg_email}","{reg_password}","{reg_select}");'
-
+    
     db_cursor.execute(insert_query)
 
     db_file.commit()
@@ -156,6 +159,7 @@ def main():
 
 def data_from_teacher():
     student_name=request.form['st_name']
+    subject_name=request.form['sub_name']
     answer_key=request.files['answer_key']
     student_email=request.form['st_email']
     student_answer=request.files['answer']
@@ -166,13 +170,9 @@ def data_from_teacher():
     session['answer_keyy']=answer_keyy
 
 
-    result=PreProcessing.main(answer,answer_keyy,total_marks)
+    result=PreProcessing.main(answer,answer_keyy,total_marks,student_name,student_email,subject_name)
     return result
     
-
-
-
-
 
 @app.route('/logout')
 def logout():

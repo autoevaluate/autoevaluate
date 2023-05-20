@@ -14,7 +14,7 @@
 
     <style>
         #main_form{
-            height: 335px;
+            height: 398px;
             width: 500px;
             position:relative;
             display: inline-block;
@@ -98,6 +98,10 @@
             <form  method="post"  enctype="multipart/form-data" action="{{ url_for('data_from_teacher') }}">
                 <label for="student_name" id="label_name" class="lab">Student Name</label>
                 <input type="text" id="name" name="st_name" required class="inpt_clsa"><br>
+
+                <label for="subject" id="label_name" class="lab">Subject Name</label>
+                <input type="text" id="subject" name="sub_name" required class="inpt_clsa"><br>
+
 
                 <label for="student_name" id="label_email" class="lab">Student Email</label>
                 <input type="text" id="email" name="st_email" required class="inpt_clsa"><br>

@@ -20,6 +20,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer,CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from gensim import corpora, models
 from gensim.similarities import Similarity
+import result
+import flask
+import sqlite3
+from flask import Flask, request, render_template,session, redirect, url_for
 
 
 
@@ -42,10 +46,10 @@ def pre_process(answer):
     stripped = [token for token in stripped if token.isalpha() or token.isdigit()]
     
     return stripped
-    if 'logged_in' in session:
-        return stripped
-    else:
-        return redirect(url_for('login'))
+    # if 'logged_in' in session:
+    #     return stripped
+    # else:
+    #     return redirect(url_for('login'))
 
 
 def check_grammar(text,total_marks):
@@ -113,6 +117,7 @@ def CheckLenght(client_answer,total_marks):
 
 
 
+
 def cosine__similarity(words1, words2,total_marks):
     marks=(int(total_marks)*20)/100
     word_set = set(words1).union(set(words2))
@@ -157,6 +162,10 @@ def contradiction(text1,text2,total_marks):
         return marks/5
     else:
         return 0
+    
+
+
+
 
 def sementic_similarity(text1,text2,total_marks):
     marks=(int(total_marks)*20)/100
@@ -187,7 +196,7 @@ def calculate_conceptual_similarity(text1,text2,total_marks):
     marks=(int(total_marks)*20)/100
     
     # tokenize and create a dictionary of words
-    texts = [text1.split(), text2.split()]
+    texts = [text1, text2]
     dictionary = corpora.Dictionary(texts)
 
     # convert texts into vectors using Bag of Words model
@@ -197,8 +206,8 @@ def calculate_conceptual_similarity(text1,text2,total_marks):
     lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=2)
 
     # convert the texts into LSI vectors
-    text1_lsi = lsi[dictionary.doc2bow(text1.split())]
-    text2_lsi = lsi[dictionary.doc2bow(text2.split())]
+    text1_lsi = lsi[dictionary.doc2bow(text1)]
+    text2_lsi = lsi[dictionary.doc2bow(text2)]
 
     # compute similarity score using cosine similarity of LSI vectors
     similarity_score = Similarity('', corpus=lsi[corpus], num_features=2)[text1_lsi][1]
@@ -243,7 +252,7 @@ def KeyWordmatching(text1, text2,total_marks):
 
 
 
-def main(answer,answer_key,total_marks):
+def main(answer,answer_key,total_marks,std_name,std_email,sub):
     # source_doc1=answer
     # target_docs=answer_key
     key_length=CheckLenght(answer,total_marks)
@@ -253,21 +262,21 @@ def main(answer,answer_key,total_marks):
     key_match=cosine__similarity(pre_proce_answer,pre_proce_answer_key,total_marks) 
     answer_contradiction=contradiction(answer,answer_key,total_marks)
     answer_sementic_similarity=sementic_similarity(pre_proce_answer,pre_proce_answer_key,total_marks)
-
-
-
-    
-    answer_conceptual_simililarity=calculate_conceptual_similarity(answer,answer_key,total_marks)
+    answer_conceptual_simililarity=calculate_conceptual_similarity(pre_proce_answer,pre_proce_answer_key,total_marks)
 
 
 
 
     answer_keyword=KeyWordmatching(answer,answer_key,total_marks)
     if int(answer_sementic_similarity)==0 or int(key_match) == 0 :
-        final_marks=0;
+        final_marks=0
     else:
         final_marks=(key_length+key_Error+key_match+answer_conceptual_simililarity+answer_contradiction+answer_sementic_similarity+answer_keyword)
-    return str(int(final_marks))
+    # return str(int(final_marks))
+        if 'logged_in' in session:
+            return result.result(final_marks,std_name,total_marks,sub,std_email)
+        else:
+            return redirect(url_for('login'))
 
     
 
